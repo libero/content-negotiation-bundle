@@ -23,7 +23,7 @@ jobs:
           name: Symfony 4 lowest version
           before_install:
               - *Xdebug
-              - "cat composer.json | jq '. * {\"conflict\": (.require + .[\"require-dev\"])|keys|map(select(contains(\"symfony/\")))|with_entries({\"key\": .value, \"value\": \"<4\"})}' | tee composer.json > /dev/null"
+              - "cat composer.json | jq '. * {\"conflict\": (.require + .[\"require-dev\"])|keys|map(select(contains(\"symfony/\")))|with_entries({\"key\": .value, \"value\": \"<4\"})}' | tee composer.json"
           install:
               - travis_retry composer update --classmap-authoritative --no-suggest  --prefer-dist --prefer-lowest --prefer-stable
           php: 7.2
@@ -32,7 +32,7 @@ jobs:
           name: Symfony 3
           before_install:
               - *Xdebug
-              - "cat composer.json | jq '. * {\"conflict\": (.require + .[\"require-dev\"])|keys|map(select(contains(\"symfony/\")))|with_entries({\"key\": .value, \"value\": \">=4\"})}' | tee composer.json > /dev/null"
+              - "cat composer.json | jq '. * {\"conflict\": (.require + .[\"require-dev\"])|keys|map(select(contains(\"symfony/\")))|with_entries({\"key\": .value, \"value\": \">=4\"})}' | tee composer.json"
           php: 7.2
 
         - stage: Test
