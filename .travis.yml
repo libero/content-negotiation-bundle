@@ -20,17 +20,19 @@ jobs:
     include:
 
         - stage: Test
-          name: Symfony 4.0
+          name: Symfony 4 lowest version
           before_install:
               - *Xdebug
-              - composer require --dev --no-update symfony/symfony=4.0.*
+              - "cat composer.json | jq '. * {\"conflict\": (.require + .[\"require-dev\"])|keys|map(select(contains(\"symfony/\")))|with_entries({\"key\": .value, \"value\": \"<4\"})}' | tee composer.json > /dev/null"
+          install:
+              - travis_retry composer update --classmap-authoritative --no-suggest  --prefer-dist --prefer-lowest --prefer-stable
           php: 7.2
 
         - stage: Test
-          name: Symfony 3.4
+          name: Symfony 3
           before_install:
               - *Xdebug
-              - composer require --dev --no-update symfony/symfony=3.4.*
+              - "cat composer.json | jq '. * {\"conflict\": (.require + .[\"require-dev\"])|keys|map(select(contains(\"symfony/\")))|with_entries({\"key\": .value, \"value\": \">=4\"})}' | tee composer.json > /dev/null"
           php: 7.2
 
         - stage: Test
