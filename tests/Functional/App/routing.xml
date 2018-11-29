@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<routes xmlns="http://symfony.com/schema/routing"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="1" path="/no-format" controller="tests\Libero\ContentNegotiationBundle\Functional\App\Controller"/>
+
+    <route id="2" path="/xml" controller="tests\Libero\ContentNegotiationBundle\Functional\App\Controller">
+        <requirement key="_format">xml</requirement>
+    </route>
+
+    <route id="3" path="/xml-json" controller="tests\Libero\ContentNegotiationBundle\Functional\App\Controller">
+        <requirement key="_format">xml|json</requirement>
+    </route>
+
+    <route id="4" path="/no-locale" controller="tests\Libero\ContentNegotiationBundle\Functional\App\Controller"/>
+
+    <route id="5" path="/en" controller="tests\Libero\ContentNegotiationBundle\Functional\App\Controller">
+        <requirement key="_locale">en</requirement>
+    </route>
+
+    <route id="6" path="/en-fr" controller="tests\Libero\ContentNegotiationBundle\Functional\App\Controller">
+        <requirement key="_locale">en|fr</requirement>
+    </route>
+
+</routes>
