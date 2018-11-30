@@ -11,24 +11,23 @@ use tests\Libero\ContentNegotiationBundle\Functional\App\Kernel;
 
 abstract class FunctionalTestCase extends TestCase
 {
-    /** @var Filesystem */
-    private static $filesystem;
-
     /** @var KernelInterface */
     private static $kernel;
 
-    public static function setUpBeforeClass() : void
+    /**
+     * @beforeClass
+     */
+    final public static function setUpKernel() : void
     {
-        self::$filesystem = new Filesystem();
-        parent::setUpBeforeClass();
         self::$kernel = self::createKernel();
     }
 
-    public static function tearDownAfterClass() : void
+    /**
+     * @afterClass
+     */
+    final public static function removeKernelCache() : void
     {
-        parent::tearDownAfterClass();
-
-        self::$filesystem->remove(self::$kernel->getCacheDir());
+        (new Filesystem())->remove(self::$kernel->getCacheDir());
     }
 
     final public function getKernel() : KernelInterface

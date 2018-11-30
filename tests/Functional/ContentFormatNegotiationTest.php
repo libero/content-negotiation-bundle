@@ -11,9 +11,9 @@ final class ContentFormatNegotiationTest extends FunctionalTestCase
 {
     /**
      * @test
-     * @dataProvider anyProvider
+     * @dataProvider anyFormatProvider
      */
-    public function it_may_not_negotiate(?string $header) : void
+    public function it_will_not_negotiate_if_not_configured(?string $header) : void
     {
         $kernel = static::getKernel();
 
@@ -24,10 +24,12 @@ final class ContentFormatNegotiationTest extends FunctionalTestCase
 
         $response = $kernel->handle($request);
 
+        $this->assertSame(200, $response->getStatusCode());
         $this->assertNull($response->headers->get('X-Negotiated-Format'));
+        $this->assertSame('default', $request->getRequestFormat('default'));
     }
 
-    public function anyProvider() : iterable
+    public function anyFormatProvider() : iterable
     {
         yield [null];
         yield ['*/*'];
@@ -39,7 +41,7 @@ final class ContentFormatNegotiationTest extends FunctionalTestCase
      * @test
      * @dataProvider xmlProvider
      */
-    public function it_negotiates_any(string $header, string $expected) : void
+    public function it_negotiates_when_there_is_one_possibility(string $header, string $expected) : void
     {
         $kernel = static::getKernel();
 
@@ -48,7 +50,9 @@ final class ContentFormatNegotiationTest extends FunctionalTestCase
 
         $response = $kernel->handle($request);
 
+        $this->assertSame(200, $response->getStatusCode());
         $this->assertSame($expected, $response->headers->get('X-Negotiated-Format'));
+        $this->assertSame($expected, $request->getRequestFormat('default'));
     }
 
     public function xmlProvider() : iterable
@@ -61,9 +65,9 @@ final class ContentFormatNegotiationTest extends FunctionalTestCase
 
     /**
      * @test
-     * @dataProvider xml2Provider
+     * @dataProvider xmlJsonProvider
      */
-    public function it_negotiates_any_2(string $header, string $expected) : void
+    public function it_negotiates_when_there_are_two_possibilities(string $header, string $expected) : void
     {
         $kernel = static::getKernel();
 
@@ -72,10 +76,12 @@ final class ContentFormatNegotiationTest extends FunctionalTestCase
 
         $response = $kernel->handle($request);
 
+        $this->assertSame(200, $response->getStatusCode());
         $this->assertSame($expected, $response->headers->get('X-Negotiated-Format'));
+        $this->assertSame($expected, $request->getRequestFormat('default'));
     }
 
-    public function xml2Provider() : iterable
+    public function xmlJsonProvider() : iterable
     {
         yield ['*/*', 'xml'];
         yield ['application/xml', 'xml'];
@@ -88,7 +94,7 @@ final class ContentFormatNegotiationTest extends FunctionalTestCase
     /**
      * @test
      */
-    public function it_negotiates_any_reject() : void
+    public function it_fails_to_negotiate_when_there_is_one_possibility() : void
     {
         $kernel = static::getKernel();
 
@@ -103,7 +109,7 @@ final class ContentFormatNegotiationTest extends FunctionalTestCase
     /**
      * @test
      */
-    public function it_negotiates_any_reject2() : void
+    public function it_fails_to_negotiate_when_there_are_two_possibilities() : void
     {
         $kernel = static::getKernel();
 

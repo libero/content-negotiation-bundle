@@ -11,9 +11,9 @@ final class ContentLocaleNegotiationTest extends FunctionalTestCase
 {
     /**
      * @test
-     * @dataProvider anyProvider
+     * @dataProvider anyLocaleProvider
      */
-    public function it_may_not_negotiate(?string $header) : void
+    public function it_will_not_negotiate_if_not_configured(?string $header) : void
     {
         $kernel = static::getKernel();
 
@@ -24,10 +24,12 @@ final class ContentLocaleNegotiationTest extends FunctionalTestCase
 
         $response = $kernel->handle($request);
 
+        $this->assertSame(200, $response->getStatusCode());
         $this->assertSame('und', $response->headers->get('X-Negotiated-Locale'));
+        $this->assertSame('und', $request->getLocale());
     }
 
-    public function anyProvider() : iterable
+    public function anyLocaleProvider() : iterable
     {
         yield [null];
         yield ['*'];
@@ -37,9 +39,9 @@ final class ContentLocaleNegotiationTest extends FunctionalTestCase
 
     /**
      * @test
-     * @dataProvider xmlProvider
+     * @dataProvider enProvider
      */
-    public function it_negotiates_any(string $header) : void
+    public function it_negotiates_when_there_is_one_possibility(string $header) : void
     {
         $kernel = static::getKernel();
 
@@ -48,10 +50,12 @@ final class ContentLocaleNegotiationTest extends FunctionalTestCase
 
         $response = $kernel->handle($request);
 
+        $this->assertSame(200, $response->getStatusCode());
         $this->assertSame('en', $response->headers->get('X-Negotiated-Locale'));
+        $this->assertSame('en', $request->getLocale());
     }
 
-    public function xmlProvider() : iterable
+    public function enProvider() : iterable
     {
         yield ['*'];
         yield ['en'];
@@ -61,9 +65,9 @@ final class ContentLocaleNegotiationTest extends FunctionalTestCase
 
     /**
      * @test
-     * @dataProvider xml2Provider
+     * @dataProvider enFrProvider
      */
-    public function it_negotiates_any_2(string $header, string $expected) : void
+    public function it_negotiates_when_there_are_two_possibilities(string $header, string $expected) : void
     {
         $kernel = static::getKernel();
 
@@ -72,10 +76,12 @@ final class ContentLocaleNegotiationTest extends FunctionalTestCase
 
         $response = $kernel->handle($request);
 
+        $this->assertSame(200, $response->getStatusCode());
         $this->assertSame($expected, $response->headers->get('X-Negotiated-Locale'));
+        $this->assertSame($expected, $request->getLocale());
     }
 
-    public function xml2Provider() : iterable
+    public function enFrProvider() : iterable
     {
         yield ['*', 'en'];
         yield ['en', 'en'];
@@ -86,9 +92,9 @@ final class ContentLocaleNegotiationTest extends FunctionalTestCase
 
     /**
      * @test
-     * @dataProvider rejectProvider
+     * @dataProvider enRejectProvider
      */
-    public function it_negotiates_any_reject(string $header) : void
+    public function it_fails_to_negotiate_when_there_is_one_possibility(string $header) : void
     {
         $kernel = static::getKernel();
 
@@ -100,7 +106,7 @@ final class ContentLocaleNegotiationTest extends FunctionalTestCase
         $kernel->handle($request);
     }
 
-    public function rejectProvider() : iterable
+    public function enRejectProvider() : iterable
     {
         yield ['fr'];
         yield ['en-GB'];
@@ -109,9 +115,9 @@ final class ContentLocaleNegotiationTest extends FunctionalTestCase
 
     /**
      * @test
-     * @dataProvider rejectProvider2
+     * @dataProvider enFrRejectProvider
      */
-    public function it_negotiates_any_reject2(string $header) : void
+    public function it_fails_to_negotiate_when_there_are_two_possibilities(string $header) : void
     {
         $kernel = static::getKernel();
 
@@ -123,7 +129,7 @@ final class ContentLocaleNegotiationTest extends FunctionalTestCase
         $kernel->handle($request);
     }
 
-    public function rejectProvider2() : iterable
+    public function enFrRejectProvider() : iterable
     {
         yield ['de'];
         yield ['en-GB'];
