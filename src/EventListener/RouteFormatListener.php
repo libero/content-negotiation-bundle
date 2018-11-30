@@ -37,7 +37,7 @@ final class RouteFormatListener
         $routeName = $request->attributes->get('_route');
         $route = $this->router->getRouteCollection()->get($routeName);
 
-        if (!$route) {
+        if (!$route || !$route->getRequirement('_format')) {
             return;
         }
 
@@ -46,26 +46,22 @@ final class RouteFormatListener
             $header = '*/*';
         }
 
-        if ($route->getRequirement('_format')) {
-            $formats = array_reduce(
-                explode('|', $route->getRequirement('_format')),
-                function (array $carry, string $format) use ($request) : array {
-                    return array_merge($carry, $request->getMimeTypes($format));
-                },
-                []
-            );
+        $formats = array_reduce(
+            explode('|', $route->getRequirement('_format')),
+            function (array $carry, string $format) use ($request) : array {
+                return array_merge($carry, $request->getMimeTypes($format));
+            },
+            []
+        );
 
-            /** @var Accept|null $match */
-            $match = $this->negotiator->getBest($header, $formats);
+        /** @var Accept|null $match */
+        $match = $this->negotiator->getBest($header, $formats);
 
-            if (!$match) {
-                throw new NotAcceptableFormat(AcceptHeader::fromString($header), $formats);
-            }
-
-            $normalized = $match->getNormalizedValue();
-            $request->setRequestFormat($request->getFormat($normalized) ?? $normalized);
-
-            return;
+        if (!$match) {
+            throw new NotAcceptableFormat(AcceptHeader::fromString($header), $formats);
         }
+
+        $normalized = $match->getNormalizedValue();
+        $request->setRequestFormat($request->getFormat($normalized) ?? $normalized);
     }
 }

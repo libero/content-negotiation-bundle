@@ -44,20 +44,16 @@ final class RouteLocaleListener
             $header = '*';
         }
 
-        if ($route->getRequirement('_locale')) {
-            $locales = explode('|', $route->getRequirement('_locale'));
+        $locales = explode('|', $route->getRequirement('_locale'));
 
-            /** @var AcceptLanguage|null $match */
-            $match = $this->negotiator->getBest($header, $locales);
+        /** @var AcceptLanguage|null $match */
+        $match = $this->negotiator->getBest($header, $locales);
 
-            if (!$match) {
-                throw new NotAcceptableLocale(AcceptHeader::fromString($header), $locales);
-            }
-
-            $request->attributes->set('_locale_set', true);
-            $request->setLocale($match->getNormalizedValue());
-
-            return;
+        if (!$match) {
+            throw new NotAcceptableLocale(AcceptHeader::fromString($header), $locales);
         }
+
+        $request->attributes->set('_locale_set', true);
+        $request->setLocale($match->getNormalizedValue());
     }
 }
