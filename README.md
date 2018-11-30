@@ -16,6 +16,19 @@ composer require libero/content-negotation-bundle
 
 If you're not using [Symfony Flex](https://symfony.com/doc/current/setup/flex.html), you'll need to enable the bundle in your application.
 
+### Route-level negotiation
+
+You can add negotiation at the route level 
+
+```yaml
+my_route:
+    path: /path/to/my/page
+    controller: App\Controller\PageController
+    requirements:
+        _format: xml|json
+        _locale: en|fr
+```
+
 Getting help
 ------------
 

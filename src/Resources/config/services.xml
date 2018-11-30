@@ -15,6 +15,7 @@
             class="Libero\ContentNegotiationBundle\EventListener\RouteFormatListener">
             <argument type="service" id="Negotiation\Negotiator"/>
             <argument type="service" id="router"/>
+            <!-- Straight after Symfony\Component\HttpKernel\EventListener\RouterListener -->
             <tag name="kernel.event_listener" event="kernel.request" priority="31"/>
         </service>
 
