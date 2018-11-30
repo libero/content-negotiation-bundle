@@ -46,10 +46,9 @@ final class RouteLocaleListener
 
         $locales = explode('|', $route->getRequirement('_locale'));
 
-        /** @var AcceptLanguage|null $match */
         $match = $this->negotiator->getBest($header, $locales);
 
-        if (!$match) {
+        if (!$match instanceof AcceptLanguage) {
             throw new NotAcceptableLocale(AcceptHeader::fromString($header), $locales);
         }
 

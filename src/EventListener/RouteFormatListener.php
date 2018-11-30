@@ -54,10 +54,9 @@ final class RouteFormatListener
             []
         );
 
-        /** @var Accept|null $match */
         $match = $this->negotiator->getBest($header, $formats);
 
-        if (!$match) {
+        if (!$match instanceof Accept) {
             throw new NotAcceptableFormat(AcceptHeader::fromString($header), $formats);
         }
 
