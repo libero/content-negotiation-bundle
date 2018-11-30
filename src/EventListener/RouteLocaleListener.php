@@ -52,7 +52,6 @@ final class RouteLocaleListener
             throw new NotAcceptableLocale(AcceptHeader::fromString($header), $locales);
         }
 
-        $request->attributes->set('_locale_set', true);
         $request->setLocale($match->getNormalizedValue());
     }
 }
