@@ -15,7 +15,7 @@ final class ContentFormatNegotiationTest extends FunctionalTestCase
      */
     public function it_will_not_negotiate_if_not_configured(?string $header) : void
     {
-        $kernel = static::getKernel();
+        $kernel = static::getKernel('RouteLevel');
 
         $request = Request::create('/no-format');
         if (null !== $header) {
@@ -43,7 +43,7 @@ final class ContentFormatNegotiationTest extends FunctionalTestCase
      */
     public function it_negotiates_when_there_is_one_possibility(string $header, string $expected) : void
     {
-        $kernel = static::getKernel();
+        $kernel = static::getKernel('RouteLevel');
 
         $request = Request::create('/xml');
         $request->headers->set('Accept', $header);
@@ -69,7 +69,7 @@ final class ContentFormatNegotiationTest extends FunctionalTestCase
      */
     public function it_negotiates_when_there_are_two_possibilities(string $header, string $expected) : void
     {
-        $kernel = static::getKernel();
+        $kernel = static::getKernel('RouteLevel');
 
         $request = Request::create('/xml-json');
         $request->headers->set('Accept', $header);
@@ -96,7 +96,7 @@ final class ContentFormatNegotiationTest extends FunctionalTestCase
      */
     public function it_fails_to_negotiate_when_there_is_one_possibility() : void
     {
-        $kernel = static::getKernel();
+        $kernel = static::getKernel('RouteLevel');
 
         $request = Request::create('/xml');
         $request->headers->set('Accept', 'application/json');
@@ -111,7 +111,7 @@ final class ContentFormatNegotiationTest extends FunctionalTestCase
      */
     public function it_fails_to_negotiate_when_there_are_two_possibilities() : void
     {
-        $kernel = static::getKernel();
+        $kernel = static::getKernel('RouteLevel');
 
         $request = Request::create('/xml-json');
         $request->headers->set('Accept', 'text/plain');

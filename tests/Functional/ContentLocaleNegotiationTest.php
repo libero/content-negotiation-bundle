@@ -15,7 +15,7 @@ final class ContentLocaleNegotiationTest extends FunctionalTestCase
      */
     public function it_will_not_negotiate_if_not_configured(?string $header) : void
     {
-        $kernel = static::getKernel();
+        $kernel = static::getKernel('RouteLevel');
 
         $request = Request::create('/no-locale');
         if (null !== $header) {
@@ -43,7 +43,7 @@ final class ContentLocaleNegotiationTest extends FunctionalTestCase
      */
     public function it_negotiates_when_there_is_one_possibility(string $header) : void
     {
-        $kernel = static::getKernel();
+        $kernel = static::getKernel('RouteLevel');
 
         $request = Request::create('/en');
         $request->headers->set('Accept-Language', $header);
@@ -69,7 +69,7 @@ final class ContentLocaleNegotiationTest extends FunctionalTestCase
      */
     public function it_negotiates_when_there_are_two_possibilities(string $header, string $expected) : void
     {
-        $kernel = static::getKernel();
+        $kernel = static::getKernel('RouteLevel');
 
         $request = Request::create('/en-fr');
         $request->headers->set('Accept-Language', $header);
@@ -96,7 +96,7 @@ final class ContentLocaleNegotiationTest extends FunctionalTestCase
      */
     public function it_fails_to_negotiate_when_there_is_one_possibility(string $header) : void
     {
-        $kernel = static::getKernel();
+        $kernel = static::getKernel('RouteLevel');
 
         $request = Request::create('/en');
         $request->headers->set('Accept-Language', $header);
@@ -119,7 +119,7 @@ final class ContentLocaleNegotiationTest extends FunctionalTestCase
      */
     public function it_fails_to_negotiate_when_there_are_two_possibilities(string $header) : void
     {
-        $kernel = static::getKernel();
+        $kernel = static::getKernel('RouteLevel');
 
         $request = Request::create('/en-fr');
         $request->headers->set('Accept-Language', $header);
