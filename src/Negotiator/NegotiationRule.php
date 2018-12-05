@@ -13,15 +13,22 @@ use function explode;
  */
 final class NegotiationRule extends RequestMatcher
 {
+    private $optional;
     private $path;
     private $priorities;
 
-    public function __construct(string $path, string $priorities)
+    public function __construct(string $path, string $priorities, bool $optional = false)
     {
         parent::__construct($path);
 
         $this->path = $path;
         $this->priorities = array_filter(explode('|', $priorities));
+        $this->optional = $optional;
+    }
+
+    public function isOptional() : bool
+    {
+        return $this->optional;
     }
 
     public function getPriorities() : array

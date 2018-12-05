@@ -66,29 +66,15 @@ final class PathFormatNegotiationTest extends FunctionalTestCase
         yield ['/foo', 'application/xml', 'xml'];
         yield ['/foo', 'application/json', 'json'];
         yield ['/foo/bar', 'text/html', 'html'];
+        yield ['/foo/bar', 'application/xml', 'xml'];
+        yield ['/foo/bar', 'application/json', 'json'];
         yield ['/foo/bar/baz', 'application/xml', null];
     }
 
     /**
      * @test
      */
-    public function it_fails_to_negotiate_when_there_is_one_possibility() : void
-    {
-        $kernel = static::getKernel('PathBased');
-
-        $request = Request::create('/foo/bar');
-        $request->headers->remove('Accept-Language');
-        $request->headers->set('Accept', 'application/xml');
-
-        $this->expectException(NotAcceptableFormat::class);
-
-        $kernel->handle($request);
-    }
-
-    /**
-     * @test
-     */
-    public function it_fails_to_negotiate_when_there_are_two_possibilities() : void
+    public function it_can_fail_to_negotiate() : void
     {
         $kernel = static::getKernel('PathBased');
 

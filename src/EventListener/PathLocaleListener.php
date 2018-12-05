@@ -61,9 +61,13 @@ final class PathLocaleListener
             if ($match instanceof AcceptLanguage) {
                 $request->attributes->set('_locale_set', true);
                 $request->setLocale($match->getNormalizedValue());
+
+                return;
             }
 
-            return;
+            if (!$rule->isOptional()) {
+                return;
+            }
         }
     }
 
@@ -78,7 +82,7 @@ final class PathLocaleListener
         /** @var NegotiationRule|null $rule */
         $rule = $request->attributes->get('_locale_rule');
 
-        if ($rule && !$request->attributes->get('_locale_set', false)) {
+        if ($rule && !$rule->isOptional() && !$request->attributes->get('_locale_set', false)) {
             throw new NotAcceptableLocale(
                 $this->getAcceptLanguageHeader($request),
                 $request->get('_locale_possibilities')

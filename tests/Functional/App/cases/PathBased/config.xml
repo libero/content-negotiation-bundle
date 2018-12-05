@@ -7,10 +7,10 @@
 
     <content-negotiation:content-negotiation>
         <content-negotiation:format path="^/foo/bar/baz" priorities=""/>
-        <content-negotiation:format path="^/foo/bar" priorities="html"/>
+        <content-negotiation:format path="^/foo/bar" priorities="html" optional="true"/>
         <content-negotiation:format path="^/foo" priorities="xml|json"/>
         <content-negotiation:locale path="^/foo/bar/baz" priorities=""/>
-        <content-negotiation:locale path="^/foo/bar" priorities="de"/>
+        <content-negotiation:locale path="^/foo/bar" priorities="de" optional="true"/>
         <content-negotiation:locale path="^/foo" priorities="en|fr"/>
     </content-negotiation:content-negotiation>
 

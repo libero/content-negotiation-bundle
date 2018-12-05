@@ -16,11 +16,13 @@
     <xsd:complexType name="format">
         <xsd:attribute name="path" type="xsd:string" use="required"/>
         <xsd:attribute name="priorities" type="xsd:string" use="required"/>
+        <xsd:attribute name="optional" type="xsd:boolean" default="false"/>
     </xsd:complexType>
 
     <xsd:complexType name="locale">
         <xsd:attribute name="path" type="xsd:string" use="required"/>
         <xsd:attribute name="priorities" type="xsd:string" use="required"/>
+        <xsd:attribute name="optional" type="xsd:boolean" default="false"/>
     </xsd:complexType>
 
 </xsd:schema>

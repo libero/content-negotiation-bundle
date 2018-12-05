@@ -66,29 +66,15 @@ final class PathLocaleNegotiationTest extends FunctionalTestCase
         yield ['/foo', 'en', 'en'];
         yield ['/foo', 'fr', 'fr'];
         yield ['/foo/bar', 'de', 'de'];
+        yield ['/foo/bar', 'en', 'en'];
+        yield ['/foo/bar', 'fr', 'fr'];
         yield ['/foo/bar/baz', 'en', 'und'];
     }
 
     /**
      * @test
      */
-    public function it_fails_to_negotiate_when_there_is_one_possibility() : void
-    {
-        $kernel = static::getKernel('PathBased');
-
-        $request = Request::create('/foo/bar');
-        $request->headers->remove('Accept');
-        $request->headers->set('Accept-Language', 'en');
-
-        $this->expectException(NotAcceptableLocale::class);
-
-        $kernel->handle($request);
-    }
-
-    /**
-     * @test
-     */
-    public function it_fails_to_negotiate_when_there_are_two_possibilities() : void
+    public function it_can_fail_to_negotiate() : void
     {
         $kernel = static::getKernel('PathBased');
 

@@ -79,9 +79,13 @@ final class PathFormatListener
             if ($match instanceof Accept) {
                 $normalized = $match->getNormalizedValue();
                 $request->setRequestFormat($request->getFormat($normalized) ?? $normalized);
+
+                return;
             }
 
-            return;
+            if (!$rule->isOptional()) {
+                return;
+            }
         }
     }
 
@@ -96,7 +100,7 @@ final class PathFormatListener
         /** @var NegotiationRule|null $rule */
         $rule = $request->attributes->get('_format_rule');
 
-        if ($rule && !$request->getRequestFormat(null)) {
+        if ($rule && !$rule->isOptional() && !$request->getRequestFormat(null)) {
             throw new NotAcceptableFormat($this->getAcceptHeader($request), $request->get('_format_possibilities'));
         }
     }

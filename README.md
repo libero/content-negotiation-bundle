@@ -49,6 +49,18 @@ content_negotiation:
           priorities: en
 ```
 
+`optional` may be set to `true` to allow falling back to subsequent matches. For example, to require English everywhere except under `/foo`, where either German or English is allowed:
+
+```yaml
+content_negotiation:
+    formats:
+        - path: ^/foo($|/)
+          priorities: de
+          optional: true
+        - path: ^/
+          priorities: en
+```
+
 ### Route-level negotiation
 
 You can add negotiation at the route level by adding requirements for `_format` and/or `_locale`.

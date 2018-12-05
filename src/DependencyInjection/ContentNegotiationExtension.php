@@ -31,6 +31,7 @@ final class ContentNegotiationExtension extends Extension
             $rule = new Definition(NegotiationRule::class);
             $rule->addArgument($ruleConfig['path']);
             $rule->addArgument($ruleConfig['priorities']);
+            $rule->addArgument($ruleConfig['optional']);
             $container->setDefinition($id = PathFormatListener::class.'.'.md5(serialize($ruleConfig)), $rule);
 
             $rules[] = new Reference($id);
@@ -44,6 +45,7 @@ final class ContentNegotiationExtension extends Extension
             $rule = new Definition(NegotiationRule::class);
             $rule->addArgument($ruleConfig['path']);
             $rule->addArgument($ruleConfig['priorities']);
+            $rule->addArgument($ruleConfig['optional']);
             $container->setDefinition($id = PathLocaleListener::class.'.'.md5(serialize($ruleConfig)), $rule);
 
             $rules[] = new Reference($id);
