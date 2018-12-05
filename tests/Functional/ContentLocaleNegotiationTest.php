@@ -20,6 +20,8 @@ final class ContentLocaleNegotiationTest extends FunctionalTestCase
         $request = Request::create('/no-locale');
         if (null !== $header) {
             $request->headers->set('Accept-Language', $header);
+        } else {
+            $request->headers->remove('Accept');
         }
 
         $response = $kernel->handle($request);

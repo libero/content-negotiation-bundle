@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:content-negotiation="http://libero.pub/schema/content-negotiation-bundle"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <content-negotiation:content-negotiation>
+        <content-negotiation:format path="^/foo/bar/baz" priorities=""/>
+        <content-negotiation:format path="^/foo/bar" priorities="html"/>
+        <content-negotiation:format path="^/foo" priorities="xml|json"/>
+        <content-negotiation:locale path="^/foo/bar/baz" priorities=""/>
+        <content-negotiation:locale path="^/foo/bar" priorities="de"/>
+        <content-negotiation:locale path="^/foo" priorities="en|fr"/>
+    </content-negotiation:content-negotiation>
+
+</container>

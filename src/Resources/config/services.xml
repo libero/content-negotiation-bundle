@@ -11,6 +11,26 @@
         <service id="Negotiation\Negotiator" class="Negotiation\Negotiator"/>
         <service id="Negotiation\LanguageNegotiator" class="Negotiation\LanguageNegotiator"/>
 
+        <service id="Libero\ContentNegotiationBundle\EventListener\PathFormatListener"
+            class="Libero\ContentNegotiationBundle\EventListener\PathFormatListener">
+            <argument type="service" id="Negotiation\Negotiator"/>
+            <argument type="collection"/>
+            <!-- Just before Symfony\Component\HttpKernel\EventListener\RouterListener -->
+            <tag name="kernel.event_listener" event="kernel.request" priority="33"/>
+            <!-- Straight after Libero\ContentNegotiationBundle\EventListener\RouteFormatListener -->
+            <tag name="kernel.event_listener" event="kernel.request" priority="30" method="onKernelRequestLate"/>
+        </service>
+
+        <service id="Libero\ContentNegotiationBundle\EventListener\PathLocaleListener"
+            class="Libero\ContentNegotiationBundle\EventListener\PathLocaleListener">
+            <argument type="service" id="Negotiation\LanguageNegotiator"/>
+            <argument type="collection"/>
+            <!-- Just before Symfony\Component\HttpKernel\EventListener\RouterListener -->
+            <tag name="kernel.event_listener" event="kernel.request" priority="33"/>
+            <!-- Straight after Libero\ContentNegotiationBundle\EventListener\RouteLocaleListener -->
+            <tag name="kernel.event_listener" event="kernel.request" priority="30" method="onKernelRequestLate"/>
+        </service>
+
         <service id="Libero\ContentNegotiationBundle\EventListener\RouteFormatListener"
             class="Libero\ContentNegotiationBundle\EventListener\RouteFormatListener">
             <argument type="service" id="Negotiation\Negotiator"/>
