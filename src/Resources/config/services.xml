@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <defaults public="false"/>
+
+        <service id="Negotiation\Negotiator" class="Negotiation\Negotiator"/>
+        <service id="Negotiation\LanguageNegotiator" class="Negotiation\LanguageNegotiator"/>
+
+        <service id="Libero\ContentNegotiationBundle\EventListener\RouteFormatListener"
+            class="Libero\ContentNegotiationBundle\EventListener\RouteFormatListener">
+            <argument type="service" id="Negotiation\Negotiator"/>
+            <argument type="service" id="router"/>
+            <!-- Straight after Symfony\Component\HttpKernel\EventListener\RouterListener -->
+            <tag name="kernel.event_listener" event="kernel.request" priority="31"/>
+        </service>
+
+        <service id="Libero\ContentNegotiationBundle\EventListener\RouteLocaleListener"
+            class="Libero\ContentNegotiationBundle\EventListener\RouteLocaleListener">
+            <argument type="service" id="Negotiation\LanguageNegotiator"/>
+            <argument type="service" id="router"/>
+            <!-- Straight after Symfony\Component\HttpKernel\EventListener\RouterListener -->
+            <tag name="kernel.event_listener" event="kernel.request" priority="31"/>
+        </service>
+
+    </services>
+
+</container>
