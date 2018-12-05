@@ -25,4 +25,5 @@
     <rule ref="Squiz.WhiteSpace.SemicolonSpacing.Incorrect">
         <exclude-pattern>src/DependencyInjection/ContentNegotiationConfiguration</exclude-pattern>
     </rule>
+
 </ruleset>
