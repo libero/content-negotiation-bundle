@@ -66,6 +66,8 @@ my_route:
         _locale: en|fr
 ```
 
+Route-level negotiation takes precedence over path-based.
+
 Getting help
 ------------
 
