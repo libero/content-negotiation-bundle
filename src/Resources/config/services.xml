@@ -11,6 +11,12 @@
         <service id="Negotiation\Negotiator" class="Negotiation\Negotiator"/>
         <service id="Negotiation\LanguageNegotiator" class="Negotiation\LanguageNegotiator"/>
 
+        <service id="Libero\ContentNegotiationBundle\EventListener\DefaultLocaleListener"
+            class="Libero\ContentNegotiationBundle\EventListener\DefaultLocaleListener">
+            <argument>%kernel.default_locale%</argument>
+            <tag name="kernel.event_listener" event="kernel.request" priority="100"/>
+        </service>
+
         <service id="Libero\ContentNegotiationBundle\EventListener\PathFormatListener"
             class="Libero\ContentNegotiationBundle\EventListener\PathFormatListener">
             <argument type="service" id="Negotiation\Negotiator"/>
