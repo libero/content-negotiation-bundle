@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns="http://libero.pub/schema/content-negotation-bundle"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://libero.pub/schema/content-negotation-bundle" elementFormDefault="qualified">
+
+    <xsd:element name="content-negotiation" type="content-negotiation"/>
+
+    <xsd:complexType name="content-negotiation">
+        <xsd:choice maxOccurs="unbounded">
+            <xsd:element name="format" type="format" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="locale" type="locale" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:choice>
+    </xsd:complexType>
+
+    <xsd:complexType name="format">
+        <xsd:attribute name="path" type="xsd:string" use="required"/>
+        <xsd:attribute name="priorities" type="xsd:string" use="required"/>
+        <xsd:attribute name="optional" type="xsd:boolean" default="false"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="locale">
+        <xsd:attribute name="path" type="xsd:string" use="required"/>
+        <xsd:attribute name="priorities" type="xsd:string" use="required"/>
+        <xsd:attribute name="optional" type="xsd:boolean" default="false"/>
+    </xsd:complexType>
+
+</xsd:schema>

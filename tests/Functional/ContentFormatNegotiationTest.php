@@ -20,6 +20,8 @@ final class ContentFormatNegotiationTest extends FunctionalTestCase
         $request = Request::create('/no-format');
         if (null !== $header) {
             $request->headers->set('Accept', $header);
+        } else {
+            $request->headers->remove('Accept');
         }
 
         $response = $kernel->handle($request);
