@@ -60,14 +60,19 @@ final class PathLocaleNegotiationTest extends FunctionalTestCase
 
     public function validNegotiateProvider() : iterable
     {
+        // Accepts en|fr
         yield ['/foo', '*', 'en'];
-        yield ['/foo/bar', '*', 'de'];
-        yield ['/foo/bar/baz', '*', 'und'];
         yield ['/foo', 'en', 'en'];
         yield ['/foo', 'fr', 'fr'];
+
+        // Accepts de, falls back to en|fr
+        yield ['/foo/bar', '*', 'de'];
         yield ['/foo/bar', 'de', 'de'];
         yield ['/foo/bar', 'en', 'en'];
         yield ['/foo/bar', 'fr', 'fr'];
+
+        // No negotiation
+        yield ['/foo/bar/baz', '*', 'und'];
         yield ['/foo/bar/baz', 'en', 'und'];
     }
 

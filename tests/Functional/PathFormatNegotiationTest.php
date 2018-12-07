@@ -60,14 +60,19 @@ final class PathFormatNegotiationTest extends FunctionalTestCase
 
     public function validNegotiateProvider() : iterable
     {
+        // Accepts xml|json
         yield ['/foo', '*/*', 'xml'];
-        yield ['/foo/bar', '*/*', 'html'];
-        yield ['/foo/bar/baz', '*/*', null];
         yield ['/foo', 'application/xml', 'xml'];
         yield ['/foo', 'application/json', 'json'];
+
+        // Accepts html, falls back to xml|json
+        yield ['/foo/bar', '*/*', 'html'];
         yield ['/foo/bar', 'text/html', 'html'];
         yield ['/foo/bar', 'application/xml', 'xml'];
         yield ['/foo/bar', 'application/json', 'json'];
+
+        // No negotiation
+        yield ['/foo/bar/baz', '*/*', null];
         yield ['/foo/bar/baz', 'application/xml', null];
     }
 
